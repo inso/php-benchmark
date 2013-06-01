@@ -14,7 +14,7 @@ class Benchmark
     public function addTarget($name, $target, array $parameters = array())
     {
         if (!is_callable($target)) {
-            trigger_error('A target has to be a valid callable', E_USER_ERROR);
+            throw new \InvalidArgumentException('Argument $target has to be callable');
         }
         
         $this->targets[$name] = array(
@@ -24,10 +24,16 @@ class Benchmark
         return $this;
     }
     
-    public function setIterations($iterations)
+    public function setIterations($value)
     {
-        $this->iterations = $iterations;
-        
+        $value = (int) $value;
+
+        if ($value < 1) {
+            throw new \InvalidArgumentException('Argument $value has to be integer and be greater than 0');
+        }
+
+        $this->iterations = $value;
+
         return $this;
     }
     
