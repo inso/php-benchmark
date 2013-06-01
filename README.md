@@ -10,15 +10,18 @@ require 'Benchmark.php';
 
 $bench = new Benchmark;
 
-$bench->addTarget('function', 'date', array('Y-m-d'));
-
-$bench->addTarget('object', function() {
+$result = $bench
+    ->addTarget('function', function() {
+        return date('Y-m-d');
+    })
+    ->addTarget('object', function() {
         $date = new DateTime;
-        $date->format('Y-m-d');
-    }
-);
-
-$result = $bench->execute()->getResults();
+        return $date->format('Y-m-d');
+    })
+    ->warmUp()
+    ->execute()
+    ->getResults()
+;
 
 /*
  * var_dump($result) :

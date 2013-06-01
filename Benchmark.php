@@ -3,8 +3,9 @@
 class Benchmark
 {
     protected $targets;
-    protected $iterations = 1000;
     protected $results;
+    protected $iterations = 1000;
+    protected $warmUpIterations = 100;
 
     public function getResults()
     {
@@ -33,6 +34,30 @@ class Benchmark
         }
 
         $this->iterations = $value;
+
+        return $this;
+    }
+
+    public function setWarmUpIterations($value)
+    {
+        $value = (int) $value;
+
+        if ($value < 1) {
+            throw new \InvalidArgumentException('Argument $value has to be integer and be greater than 0');
+        }
+
+        $this->warmUpIterations = $value;
+
+        return $this;
+    }
+
+    public function warmUp()
+    {
+        foreach ($this->targets as $name => $target) {
+            for ($i = 0; $i < $this->warmUpIterations; $i++) {
+                call_user_func_array($target['callable'], $target['parameters']);
+            }
+        }
 
         return $this;
     }
