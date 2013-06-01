@@ -99,11 +99,15 @@ class Benchmark
         foreach ($this->results as $name => $time) {
             if (!isset($minTime)) {
                 $minTime = $time;
-                $this->results[$name] = '100%';
-                continue;
+                $percent = 100;
+            } else {
+                $percent = (int) round($time / $minTime * 100);
             }
-            
-            $this->results[$name] = round($time / $minTime * 100) . '%';
+
+            $this->results[$name] = array(
+                'time' => $time,
+                'percent' => $percent,
+            );
         }
         
         return $this;

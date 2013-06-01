@@ -11,6 +11,8 @@ require 'Benchmark.php';
 $bench = new Benchmark;
 
 $result = $bench
+    ->setIterations(10000)
+    ->setWarmUpIterations(1000)
     ->addTarget('function', function() {
         return date('Y-m-d');
     })
@@ -26,8 +28,21 @@ $result = $bench
 /*
  * var_dump($result) :
  *
- *   array (size=2)
- *     'function' => string '100%' (length=4)
- *     'object'   => string '122%' (length=4) 
+ * array(2) {
+ *   'function' =>
+ *   array(2) {
+ *     'time' =>
+ *     double(0.05121898651123)
+ *     'percent' =>
+ *     int(100)
+ *   }
+ *   'object' =>
+ *   array(2) {
+ *     'time' =>
+ *     double(0.074388027191162)
+ *     'percent' =>
+ *     int(145)
+ *   }
+ * }
  */
 ```
