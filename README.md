@@ -18,7 +18,7 @@ $bench->addTarget('object', function() {
     }
 );
 
-$result = $bench->execute();
+$result = $bench->execute()->getResults();
 
 /*
  * var_dump($result) :

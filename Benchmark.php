@@ -2,9 +2,14 @@
 
 class Benchmark
 {
-    private $targets;
-    private $iterations = 1000;
-    private $results;
+    protected $targets;
+    protected $iterations = 1000;
+    protected $results;
+
+    public function getResults()
+    {
+        return $this->results;
+    }
     
     public function addTarget($name, $target, array $parameters = array())
     {
@@ -44,10 +49,10 @@ class Benchmark
             $this->results[$name] = round($time / $minTime * 100) . '%';
         }
         
-        return $this->results;
+        return $this;
     }
-    
-    private function doBench($target)
+
+    protected function doBench($target)
     {
         $startTime = microtime(true);
         
