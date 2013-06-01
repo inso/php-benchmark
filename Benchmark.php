@@ -7,11 +7,21 @@ class Benchmark
     protected $iterations = 1000;
     protected $warmUpIterations = 100;
 
+    /**
+     * @return array
+     */
     public function getResults()
     {
         return $this->results;
     }
-    
+
+    /**
+     * @param string $name
+     * @param callable $target
+     * @param array $parameters
+     * @return $this
+     * @throws InvalidArgumentException
+     */
     public function addTarget($name, $target, array $parameters = array())
     {
         if (!is_callable($target)) {
@@ -24,7 +34,12 @@ class Benchmark
         
         return $this;
     }
-    
+
+    /**
+     * @param int $value
+     * @return $this
+     * @throws InvalidArgumentException
+     */
     public function setIterations($value)
     {
         $value = (int) $value;
@@ -38,6 +53,11 @@ class Benchmark
         return $this;
     }
 
+    /**
+     * @param int $value
+     * @return $this
+     * @throws InvalidArgumentException
+     */
     public function setWarmUpIterations($value)
     {
         $value = (int) $value;
@@ -51,6 +71,9 @@ class Benchmark
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function warmUp()
     {
         foreach ($this->targets as $name => $target) {
@@ -61,7 +84,10 @@ class Benchmark
 
         return $this;
     }
-    
+
+    /**
+     * @return $this
+     */
     public function execute()
     {
         foreach ($this->targets as $name => $target) {
@@ -83,6 +109,10 @@ class Benchmark
         return $this;
     }
 
+    /**
+     * @param array $target
+     * @return float
+     */
     protected function doBench($target)
     {
         $startTime = microtime(true);
